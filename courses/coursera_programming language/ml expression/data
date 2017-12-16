@@ -1,0 +1,32 @@
+# pairs and tuples
+# compound data
+
+ But we need some way to build up things that have fields, multiple parts of them. 
+ This is essential in any programming language. 
+ If you have programmed in a language like Java, you've probably programmed with arrays 
+ that contain multiple pieces or you've programmed with classes that had multiple fields 
+ that sort of thing. 
+ In ML, we are going to take a very sort of fundamental approach to it. 
+ We are going to start with tuples, which are a very direct way to have a fixed number of 
+ different data items, each of which can have different types and then in later segments, 
+ we'll start programming with lists that can have any length at run-time but all the pieces 
+ have to have the same type. These are not the only forms of compound data we will study but 
+ they will be enough for the first homework assignment and they'll get us started. 
+ 
+ ## pairs (e1, e2)
+ fun swap(pr: int*bool)=
+    (#2 pr, #1 pr)
+
+(* int*int -> int*int *)
+fun div_mod(x : int, y : int)=
+    (x div y, x mod y)
+ 
+## tuples
+(e1, e2, ..., en)
+
+
+## nested
+pairs and tuples can be nested.
+
+
+
