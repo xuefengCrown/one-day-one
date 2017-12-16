@@ -1,0 +1,17 @@
+# function
+
+## div
+
+## 定义函数
+(* only works for y>=0 *)
+fun pow_xf(x : int, y : int)=
+    if y=0
+    then 1
+    else x * pow_xf(x, y-1)
+
+## 调用
+pow_xf(2,3);
+
+
+
+
