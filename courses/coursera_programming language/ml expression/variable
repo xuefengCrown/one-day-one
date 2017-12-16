@@ -1,0 +1,20 @@
+# variable bindings
+
+## comments
+(* comments here *)
+
+##
+val m = 22;
+
+## run your pro
+c-x c-f : open a file (f.sml)
+c-x c-s : save file
+
+and then,
+c-c c-s enter: enter sml
+use "f.sml";
+
+## switch buffer
+c-x b
+up down (seek)
+
