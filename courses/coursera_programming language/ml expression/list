@@ -1,0 +1,22 @@
+# elements have same type
+
+## building list
+[]
+
+[e1, e2, ..., en]
+
+(* 相当于lisp的cons *)
+e1::e2 (* e2 is a list *)
+
+## accessing list
+null e  (* true if and only if e = [] *)
+hd e ;; first car
+tl e ;; rest cdr
+
+## ???
+val it = [] : 'a list
+- val k = (2,3)::l;
+val k = [(2,3)] : (int * int) list
+
+
+
