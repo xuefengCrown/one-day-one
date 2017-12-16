@@ -1,0 +1,51 @@
+# 3 important Q
+1. what is the syntax
+how you write it down?
+
+2. what are the typing checking rules?
+
+3. the evaluation rules
+
+之后，你可以对variable， addition...应用这些问题。
+回答完这3个问题，你就对它们一清二楚了。
+
+# conditionals
+## syntax
+if e1 then e2 else e3 where if then and else are keywords.  
+They're the actual syntax that explains what this is what construct this is.  
+And e1, e2, and e3 are sub expressions. So the same way an addition has two sub  expressions. 
+A conditional has three sub expressions.  
+
+## the type checking
+first e1 must have type bool.  It must be true or false, or a variable of type bool or 
+a comparison or some  expression of type bool. 
+e2 and e3 can have any type, let's call  it t but they must have the same type, t. 
+So you can't have a then branch of one  type and an else branch of another type, 
+because the result of our entire  expression might be either of them. 
+And what we need is, the type of the  entire expression is also t. 
+
+## And last we have to evaluation rules.  
+And here we first evaluate e1 to a value, call it v1.  
+Since it type checked with type, I actually know that v1 will be true or false. 
+If it's true evaluate e2 and that result is the whole expressions result 
+else evaluate e3 and that result is the whole  expressions result. 
+
+
+# <
+## syntax
+e1 < e2
+where < is a keyword
+
+## type checking
+e1 and e2 are same type?
+and they are comparable?
+
+## evaluation
+true or false
+
+
+
+
+
+
+
