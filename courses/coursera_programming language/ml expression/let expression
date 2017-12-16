@@ -1,0 +1,6 @@
+
+fun silly()=
+  let val x = 3
+  in
+  (let val x=6 in x end) + (x + 8)
+  end
