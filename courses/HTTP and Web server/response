@@ -1,0 +1,68 @@
+GET / HTTP/1.1
+Host: google.com
+
+The status line is the first line of text that the server sends back. The headers are the other lines up 
+until the first blank line. The response body is the rest — in this case, it's a piece of HTML.
+
+
+1xx — Informational. The request is in progress or there's another step to take.
+2xx — Success! The request succeeded. The server is sending the data the client asked for.
+3xx — Redirection. The server is telling the client a different URI it should redirect to. 
+The headers will usually contain a Location header with the updated URI. Different codes 
+tell the client whether a redirect is permanent or temporary.
+4xx — Client error. The server didn't understand the client's request, or can't or won't fill it. 
+Different codes tell the client whether it was a bad URI, a permissions problem, or another sort of error.
+5xx — Server error. Something went wrong on the server side.
+
+
+HTTP/1.1 301 Moved Permanently
+Location: http://www.google.com/
+
+The server response here is an example of good user interface on the Web. 
+Google wants browsers to use www.google.com instead of google.com. But instead of showing the 
+user an error message, they send a redirect. Browsers will automatically follow the redirect 
+and end up on the right site.
+
+
+## Headers
+An HTTP response can include many headers. Each header is a line that starts with a keyword, 
+such as Location or Content-type, followed by a colon and a value. Headers are a sort of metadata 
+for the response. They aren't displayed by browsers or other clients; instead, they tell the client 
+various information about the response.
+
+Many, many features of the Web are implemented using headers. For instance, cookies are a Web 
+feature that lets servers store data on the browser, for instance to keep a user logged in. 
+To set a cookie, the server sends the Set-Cookie header. The browser will then send the 
+cookie data back in a Cookie header on subsequent requests. You'll see more about cookies 
+later in this course.
+
+## Exercise: Be a web server!
+Use ncat -l 9999 to listen on port 9999. Connect to it with your web browser at http://localhost:9999/. 
+What do you see in your terminal?
+
+Keep that terminal open!
+
+Next, send an HTTP response to your browser by typing it into the terminal, right under 
+where you see the headers the browser sent to you:
+
+HTTP/1.1 307 Temporary Redirect
+Location: https://www.eff.org/
+
+At the end, press Enter twice to send a blank line to mark the end of headers.
+
+
+Do it again! Run ncat -l 9999 to play a server, and get your browser to access it. But this time, 
+instead of sending a 307 redirect, send a 200 OK with a piece of text in it:
+
+HTTP/1.1 200 OK
+Content-type: text/plain
+Content-length: 50
+
+Hello, browser! I am a real HTTP server, honestly!
+(Remember the blank line between headers and body!)
+
+
+
+
+
+
