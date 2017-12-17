@@ -1,0 +1,41 @@
+
+In the terminal, you can use the host program to look up hostnames in DNS:
+
+Some systems don't have the host command, but do have a similar command called nslookup. 
+This command also displays the IP address for the hostname you give it; but it also shows the 
+IP address of the DNS server that's giving it the answer:
+
+# get IP corresponding hostname
+nslookup www.google.com
+
+# 使用http://freegeoip.net/json/的服务，你可以获得该IP的详细信息。
+import json
+from urllib import urlopen
+def getCountry(ipAddress):
+    response = urlopen("http://freegeoip.net/json/" +
+                       ipAddress).read().decode('utf-8')
+    responseJson = json.loads(response)
+    print responseJson
+    return responseJson.get("country_code")
+print(getCountry("121.97.110.145"))
+
+# nslookup www.sina.com
+名称:    www.sina.com
+Address:  112.13.174.126
+
+# 获得该IP address 的 详细信息
+# http://freegeoip.net/json/112.13.174.126
+{"ip":"112.13.174.126","country_code":"CN","country_name":"China","region_code":"","region_name":"","city":"",
+"zip_code":"","time_zone":"","latitude":34.7725,"longitude":113.7266,"metro_code":0}
+
+# 使用google地图，根据经纬度来查找行政上的具体位置
+https://www.google.com/maps/
+
+这是在郑州市的一个湖底。
+
+We say that a server "listens on" a port, such as 80 or 8000. "Listening" means that when the server starts up, 
+it tells its operating system that it wants to receive connections from clients on a particular port number. 
+When a client (such as a web browser) "connects to" that port and sends a request, the operating system knows 
+to forward that request to the server that's listening on that port.
+
+
