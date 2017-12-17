@@ -1,0 +1,36 @@
+# run a server
+
+$ /c/python36/python -m http.server 8000
+// run a server built-in python listen on port 8000
+
+// then you can open browser and type in localhost:8000
+
+
+# Scheme
+Scheme
+The first part of a URI is the scheme, which tells the client how to go about accessing the resource. 
+Some URI schemes you've seen before include http, https, and file. File URIs tell the client to access 
+a file on the local filesystem. HTTP and HTTPS URIs point to resources served by a web server.
+
+// such as
+file:///C:/code_dxf/
+
+
+# 定位到页面的某一部分
+Other URI parts
+There are many other parts that can occur in a URI. Consider the difference between these two Wikipedia URIs:
+
+https://en.wikipedia.org/wiki/Oxygen
+https://en.wikipedia.org/wiki/Oxygen#Discovery
+
+If you follow these links in your browser, it will fetch the same page from Wikipedia's web server. 
+But the second one displays the page scrolled to the section about the discovery of oxygen. 
+The part of the URI after the # sign is called a fragment. The browser doesn't even send it 
+to the web server. It lets a link point to a specific named part of a resource; in HTML 
+pages it links to an element by id.
+
+# 更多内容参见wiki
+https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax
+
+
+
