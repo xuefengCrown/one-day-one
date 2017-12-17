@@ -21,4 +21,7 @@ for inf in ta_data_full:
     print inf
 
 
+## 条件筛选 如:not live in USA
 
+ta_data_not_usa = [name + ' lives in ' + country + ' and is the TA for ' + course
+                for name, country, course in ta_data if country != 'USA']
