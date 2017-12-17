@@ -1,0 +1,8 @@
+open your terminal and run these commands:
+
+git clone https://github.com/udacity/course-ud303
+cd course-ud303
+git remote remove origin
+
+This will put your shell into a directory called course-ud303 containing the downloadable exercises. 
+Take a look around at the subdirectories here. For each exercise, you'll be using one of them.
