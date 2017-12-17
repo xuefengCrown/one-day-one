@@ -1,0 +1,24 @@
+# 列表解析式
+
+## 
+uda_tea = ["Peter", "Amanda", "Linux", "Andy"]
+
+uda_tea_upper = [name.upper() for name in uda_tea]
+
+print uda_tea_upper
+
+ta_data = {('Peter', 'USA', 'CS262'),
+           ('Andy', 'USA', 'CS212'),
+           ('Sarah', 'England', 'CS101'),
+           ('Gundega', 'Latvia', "CS253"),
+           ('Sean', 'USA', 'CS373'),
+           ('Job', 'USA', 'CS387')}
+
+ta_data_full = [name + ' lives in ' + country + ' and is the TA for ' + course
+                for name, country, course in ta_data]
+
+for inf in ta_data_full:
+    print inf
+
+
+
