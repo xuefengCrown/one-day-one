@@ -1,0 +1,270 @@
+common pattern in sequence processing
+
+# 1. generate a matrix
+>>> m4x4 = [[0]*4 for i in range(4)]
+>>> m4x4
+[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+
+# 2. Any values can be included in a list, including another list.
+m4x4 = [[1, 0, 1], [1, 1, 0], [0, 1, 1]]
+"""
+[1, 0, 1]
+[1, 1, 0] 
+[0, 1, 1]
+"""
+## 取第n列
+>>> [r[0] for r in m4x4]
+[1, 1, 0]
+
+## 取对角（left-top right-bottom）
+>>> [r[idx] for idx,r in enumerate(m4x4)]
+[1, 1, 1]
+
+#3 Sequence unpacking
+>>> pairs = [[1, 2], [2, 2], [2, 3], [4, 4]]
+and wish to find the number of these pairs that have the same first and second element.
+
+>>> same_count = 0
+The following for statement with two names in its header will bind each name x and y to 
+the first and second elements in each pair, respectively.
+>>> for x, y in pairs: ## 自动解包
+        if x == y:
+            same_count = same_count + 1
+>>> same_count
+2
+
+# 4
+The general form of a list comprehension is:
+[<map expression> for <name> in <sequence expression> if <filter expression>]
+
+To evaluate a list comprehension, Python evaluates the <sequence expression>, 
+which must return an iterable value. Then, for each element in order, the element 
+value is bound to <name>, the filter expression is evaluated, and if it yields a true value, 
+the map expression is evaluated. The values of the map expression are collected into a list.
+
+# Aggregation 聚合
+A third common pattern in sequence processing is to aggregate all values in a sequence 
+into a single value. The built-in functions sum, min, and max are all examples of 
+aggregation functions.
+
+# Higher-Order Functions.
+>>> from functools import reduce
+>>> from operator import mul
+map, filter, reduce
+Finally, many forms of aggregation can be expressed as repeatedly applying a two-argument function 
+to the reduced value so far and each element in turn.
+>>> def reduce(reduce_fn, s, initial):
+        reduced = initial
+        for x in s:
+            reduced = reduce_fn(reduced, x)
+        return reduced
+
+# Conventional Names
+map, filter, reduce
+
+# 2.3.4 Sequence Abstraction
+We have introduced two native data types that satisfy the sequence abstraction: lists and ranges. 
+Both satisfy the conditions with which we began this section: length and element selection. 
+Python includes two more behaviors of sequence types that extend the sequence abstraction.
+
+## Membership. A value can be tested for membership in a sequence. Python has two operators in 
+and not in that evaluate to True or False depending on whether an element appears in a sequence.
+>>> digits
+[1, 8, 2, 8]
+>>> 2 in digits
+True
+>>> 1828 not in digits
+True
+
+## Slicing. 
+
+Slicing can be used on the branches of a tree as well. For example, we may want to place a 
+restriction on the number of branches in a tree. A binary tree is either a leaf or a sequence 
+of at most two binary trees. A common tree transformation called binarization computes a binary tree 
+from an original tree by grouping together adjacent(邻近的) branches.
+
+>>> def right_binarize(tree):
+        """Construct a right-branching binary tree."""
+        if is_leaf(tree):
+            return tree
+        if len(tree) > 2:
+            tree = [tree[0], tree[1:]]
+        return [right_binarize(b) for b in tree]
+>>> right_binarize([1, 2, 3, 4, 5, 6, 7])
+[1, [2, [3, [4, [5, [6, 7]]]]]]
+
+>>>
+tree = [1, 2, 3, 4, 5, 6, 7]
+tree = [1, [2, 3, 4, 5, 6, 7]]
+return [right_binarize(b) for b in tree]
+
+Sequences have a rich abstraction because they are so ubiquitous in computing that learning 
+a few complex behaviors is justified. In general, most user-defined abstractions should be 
+kept as simple as possible.
+
+## 2.3.5 Strings
+Text values are perhaps more fundamental to computer science than even numbers. 
+As a case in point, Python programs are written and stored as text. 
+The native data type for text in Python is called a string, and 
+corresponds to the constructor str.
+There are many details of how strings are represented, expressed, and manipulated in Python. 
+Strings are another example of a rich abstraction, one that requires a substantial commitment 
+on the part of the programmer to master. This section serves as a condensed(扼要的) introduction to 
+essential string behaviors.
+
+Further reading. Encoding text in computers is a complex topic. In this chapter, 
+we will abstract away the details of how strings are represented. However, 
+for many applications, the particular details of how strings are encoded by computers 
+is essential knowledge. The strings chapter of Dive Into Python 3 provides a 
+description of character encodings and Unicode.
+
+## 2.3.6   Trees
+closure property!!! 类比线性代数中的向量空间（自封闭）
+Our ability to use lists as the elements of other lists provides a new means of 
+combination in our programming language. This ability is called a closure property 
+of a data type. In general, a method for combining data values has a closure property 
+if the result of combination can itself be combined using the same method. Closure is 
+the key to power in any means of combination because it permits us to create 
+hierarchical structures — structures made up of parts, which themselves are 
+made up of parts, and so on.
+
+Nesting lists within lists can introduce complexity. The tree is a fundamental data 
+abstraction that imposes regularity on how hierarchical values are structured and manipulated.
+
+???
+A tree has a root value and a sequence of branches. Each branch of a tree is a tree. 
+A tree with no branches is called a leaf. Any tree contained within a tree is called 
+a sub-tree of that tree (such as a branch of a branch). The root value of a sub-tree 
+of a tree is called a node (or node value) in that tree.
+
+## 2.3.7 Linked Lists
+four = [1, [2, [3, [4, 'empty']]]] # lisp中，list的内部结构就是链表
+Linked lists have recursive structure: the rest of a linked list is a linked list or 'empty'.
+We can define an abstract data representation to validate, construct, and select the components of linked lists.
+>>> empty = 'empty'
+>>> def is_link(s):
+        """s is a linked list if it is empty or a (first, rest) pair."""
+        return s == empty or (len(s) == 2 and is_link(s[1]))
+>>> def link(first, rest):
+        """Construct a linked list from its first element and the rest."""
+        assert is_link(rest), "rest must be a linked list."
+        return [first, rest]
+>>> def first(s):
+        """Return the first element of a linked list s."""
+        assert is_link(s), "first only applies to linked lists."
+        assert s != empty, "empty linked list has no first element."
+        return s[0]
+>>> def rest(s):
+        """Return the rest of the elements of a linked list s."""
+        assert is_link(s), "rest only applies to linked lists."
+        assert s != empty, "empty linked list has no rest."
+        return s[1]
+
+Our implementation of this kind of abstract data uses pairs that are two-element list values.
+
+The linked list can store a sequence of values in order, but we have not yet shown that it 
+satisfies the sequence abstraction. Using the abstract data representation we have defined, 
+we can implement the two behaviors that characterize a sequence: length and element selection.
+>>> def len_link(s):
+        """Return the length of linked list s."""
+        length = 0
+        while s != empty:
+            s, length = rest(s), length + 1
+        return length
+>>> def getitem_link(s, i):
+        """Return the element at index i of linked list s."""
+        while i > 0:
+            s, i = rest(s), i - 1
+        return first(s)
+
+## Recursive manipulation.
+Both len_link and getitem_link are iterative. They peel away（剥掉） each layer（层） 
+of nested pair until the end of the list (in len_link) or the desired element (in getitem_link) 
+is reached. We can also implement length and element selection using recursion.
+>>> def len_link_recursive(s):
+        """Return the length of a linked list s."""
+        if s == empty:
+            return 0
+        return 1 + len_link_recursive(rest(s))
+>>> def getitem_link_recursive(s, i):
+        """Return the element at index i of linked list s."""
+        if i == 0:
+            return first(s)
+        return getitem_link_recursive(rest(s), i - 1)
+
+Recursion is also useful for transforming and combining linked lists.
+>>> def extend_link(s, t):
+        """Return a list with the elements of s followed by those of t."""
+        assert is_link(s) and is_link(t)
+        if s == empty:
+            return t
+        else:
+            return link(first(s), extend_link(rest(s), t))
+>>> extend_link(four, four)
+[1, [2, [3, [4, [1, [2, [3, [4, 'empty']]]]]]]]
+>>> def apply_to_all_link(f, s):
+        """Apply f to each element of s."""
+        assert is_link(s)
+        if s == empty:
+            return s
+        else:
+            return link(f(first(s)), apply_to_all_link(f, rest(s)))
+>>> apply_to_all_link(lambda x: x*x, four)
+[1, [4, [9, [16, 'empty']]]]
+>>> def keep_if_link(f, s):
+        """Return a list with elements of s for which f(e) is true."""
+        assert is_link(s)
+        if s == empty:
+            return s
+        else:
+            kept = keep_if_link(f, rest(s))
+            if f(first(s)):
+                return link(first(s), kept)
+            else:
+                return kept
+>>> keep_if_link(lambda x: x%2 == 0, four)
+[2, [4, 'empty']]
+>>> def join_link(s, separator):
+        """Return a string of all elements in s separated by separator."""
+        if s == empty:
+            return ""
+        elif rest(s) == empty:
+            return str(first(s))
+        else:
+            return str(first(s)) + separator + join_link(rest(s), separator)
+>>> join_link(four, ", ")
+'1, 2, 3, 4'
+
+
+>>> def partitions(n, m):
+        """Return a linked list of partitions of n using parts of up to m.
+        Each partition is represented as a linked list.
+        """
+        if n == 0:
+            return link(empty, empty) # A list containing the empty partition
+        elif n < 0 or m == 0:
+            return empty
+        else:
+            using_m = partitions(n-m, m)
+            with_m = apply_to_all_link(lambda s: link(m, s), using_m)
+            without_m = partitions(n, m-1)
+            return extend_link(with_m, without_m)
+>>> partitions(3, 2)
+using_m = partitions(1, 2)
+  >>> using_m = partitions(-1, 2)
+  >>> with_m = empty
+  >>> without_m = partitions(1, 1) -->[1, empty]
+  >>> return [1, empty]
+with_m = [[2, 1]]
+  >>> [2, [2, [1, empty]]]
+without_m = partitions(3, 1)-->[1, [1, [1, empty]]]
+  >>> using_m = partitions(2, 1)-->[1, [1, empty]]
+    >>> using_m = partitions(1, 1)-->[1, empty]
+    >>> with_m = link(1, using_m)
+    >>> without_m = partitions(2, 0) -->empty
+    >>> return [1, [1, empty]]
+  >>> with_m = link(1, using_m)-->[1, [1, [1, empty]]]
+  >>> without_m = partitions(3, 0) -->empty
+  >>> return [1, [1, [1, empty]]]
+return extend_link(with_m, without_m)
+????????????????????????????
