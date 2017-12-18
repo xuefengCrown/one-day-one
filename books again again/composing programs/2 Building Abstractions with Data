@@ -1,0 +1,12 @@
+# 数据抽象
+This chapter focuses on data. The techniques we investigate here will allow us to represent and manipulate 
+information about many different domains. Due to the explosive growth of the Internet, a vast amount of 
+structured information is freely available to all of us online, and computation can be applied to a vast 
+range of different problems. Effective use of built-in and user-defined data types are fundamental to 
+data processing applications.
+
+# Non-numeric types. Values can represent many other types of data, such as sounds, images, locations, 
+web addresses, network connections, and more. A few are represented by native data types, such as the 
+bool class for values True and False. The type for most values must be defined by programmers using 
+the means of combination and abstraction that we will develop in this chapter.
+
