@@ -1,0 +1,123 @@
+
+As we consider the wide set of things in the world that we would like to represent in our programs, 
+we find that most of them have compound structure. 
+For example, a geographic position has latitude and longitude coordinates. To represent positions, 
+we would like our programming language to have the capacity to couple together a latitude and 
+longitude to form a pair, a compound data value that our programs can manipulate as a single 
+conceptual unit, but which also has two parts that can be considered individually.
+
+The use of compound data enables us to increase the modularity of our programs. If we can 
+manipulate geographic positions as whole values, then we can shield parts of our program that 
+compute using positions from the details of how those positions are represented. 
+
+In other words, we can make an abstraction that separates the way the function is used from 
+the details of how the function is implemented. Analogously, data abstraction isolates how 
+a compound data value is used from the details of how it is constructed.
+
+## 构造器 && 选择器（constructor && selector）
+抽象数据 && 具体表示
+The basic idea of data abstraction is to structure programs so that they operate on abstract data. 
+That is, our programs should use data in such a way as to make as few assumptions about the data 
+as possible. At the same time, a concrete data representation is defined as an independent part 
+of the program.
+
+These two parts of a program, the part that operates on abstract data and the part that defines a 
+concrete representation, are connected by a small set of functions that implement abstract data 
+in terms of the concrete representation. To illustrate this technique, we will consider how to 
+design a set of functions for manipulating rational numbers.
+
+
+## 2.2.1 Example: Rational Numbers
+We know from using functional abstractions that we can start programming productively before 
+we have an implementation of some parts of our program. Let us begin by assuming that we already 
+have a way of constructing a rational number from a numerator and a denominator. 
+We also assume that, given a rational number, we have a way of selecting its numerator 
+and its denominator component. Let us further assume that the constructor and selectors 
+are available as the following three functions:
+
+++ rational(n, d) returns the rational number with numerator n and denominator d.
+++ numer(x) returns the numerator of the rational number x.
+++ denom(x) returns the denominator of the rational number x.
+
+## 2.2.3 Abstraction Barriers
+An abstraction barrier violation occurs whenever a part of the program that can use 
+a higher level function instead uses a function in a lower level. 
+For example, a function that computes the square of a rational number is 
+best implemented in terms of mul_rational, which does not assume anything 
+about the implementation of a rational number.
+
+>>> def square_rational(x):
+        return mul_rational(x, x)
+
+Abstraction barriers make programs easier to maintain and to modify. The fewer functions that 
+depend on a particular representation, the fewer changes are required when one wants to 
+change that representation.
+
+is robust to future changes. 
+The square_rational function would not require updating even if we altered the 
+representation of rational numbers.
+
+## 2.2.4 The Properties of Data
+Abstraction barriers shape the way in which we think about data. 
+A valid representation of a rational number is not restricted to any 
+particular implementation (such as a two-element list); 
+it is a value returned by rational that can be passed to numer, and denom.
+In addition, the appropriate relationship must hold among the constructor and selectors. 
+That is, if we construct a rational number x from integers n and d, then it should be 
+the case that numer(x)/denom(x) is equal to n/d.
+
+In general, we can express abstract data using a collection of selectors and constructors, 
+together with some behavior conditions. 
+The implementation details below an abstraction barrier may change, but if the behavior does not, 
+then the data abstraction remains valid, and any program written using this data abstraction will 
+remain correct.
+
+### pair是什么？
+This point of view can be applied broadly, including to the pair values that we used to implement 
+rational numbers. We never actually said much about what a pair was, only that the language supplied 
+the means to create and manipulate lists with two elements. The behavior we require to implement 
+a pair is that it glues two values together. Stated as a behavior condition,
+
+~~~If a pair p was constructed from values x and y, then select(p, 0) returns x, and select(p, 1) returns y.
+
+https://en.wikipedia.org/wiki/Duck_typing
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+In computer programming, duck typing is an application of the duck test in type safety. 
+It requires that type checking be deferred to runtime, and is implemented by means of 
+dynamic typing or reflection.[citation needed]
+Duck typing is concerned with establishing the suitability of an object for some purpose, 
+using the principle, "If it walks like a duck and it quacks like a duck, then it must be a duck." 
+With normal typing, suitability is assumed to be determined by an object's type only. 
+In duck typing, an object's suitability is determined by the presence of certain methods 
+and properties (with appropriate meaning), rather than the actual type of the object.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+We don't actually need the list type to create pairs. Instead, we can implement two functions pair 
+and select that fulfill this description just as well as a two-element list.
+>>> def pair(x, y):
+        """Return a function that represents a pair."""
+        def get(index):
+            if index == 0:
+                return x
+            elif index == 1:
+                return y
+        return get
+>>> def select(p, i):
+        """Return the element at index i of pair p."""
+        return p(i)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
