@@ -1,0 +1,96 @@
+# nonlocal 实现lisp中闭包
+
+def make_withdraw(balance):
+    def withdraw(amount):
+        nonlocal balance # closure, mean keep balance. lisp
+        if amount > balance:
+            return 'Insufficient funds'
+        balance = balance - amount
+        return balance
+    return withdraw
+
+wd = make_withdraw(20)
+print(wd(5))
+print(wd(3))
+
+The second call to withdraw does create a second local frame, as usual. 
+However, both withdraw frames have the same parent. That is, they both 
+extend the environment for make_withdraw, which contains the binding 
+for balance. Hence, they share that particular name binding. Calling 
+withdraw has the side effect of altering the environment that will be 
+extended by future calls to withdraw. The nonlocal statement allows 
+withdraw to change a name binding in the make_withdraw frame.
+
+## 没有nonlocal，你只能去父亲那逛逛和看看，有了nonlocal，你就能动手change
+Ever since we first encountered nested def statements, we have observed 
+that a locally defined function can look up names outside of its local 
+frames. No nonlocal statement is required to access a non-local name. 
+By contrast, only after a nonlocal statement can a function change the 
+binding of names in these frames.
+
+## Python Particulars. 
+This pattern of non-local assignment is a general feature 
+of programming languages with higher-order functions and lexical scope. 
+Most other languages do not require a nonlocal statement at all. 
+Instead, non-local assignment is often the default behavior of assignment statements.
+
+## 2.4.5 The Benefits of Non-Local Assignment
+Non-local assignment is an important step on our path to viewing a program as a collection 
+of independent and autonomous objects, which interact with each other but each manage their own internal state.
+
+In particular, non-local assignment has given us the ability to maintain some state that 
+is local to a function, but evolves over successive calls to that function. 
+The balance associated with a particular withdraw function is shared among all calls to 
+that function. However, the binding for balance associated with an instance of withdraw 
+is inaccessible to the rest of the program. Only wd is associated with the frame for 
+make_withdraw in which it was defined. If make_withdraw is called again, then it will
+create a separate frame with a separate binding for balance.
+>>> wd1 = make_withdraw(20)
+>>> wd2 = make_withdraw(7)
+## wd1, wd2 各自有着自己的state， 互不干扰
+Now, we see that there are in fact two bindings for the name balance in two different frames, 
+and each withdraw function has a different parent. The name wd1 is bound to a function with a 
+balance of 20, while wd2 is bound to a different function with a balance of 7.
+这样或许更明白些：
+>>> account1 = make_withdraw(20)
+>>> account2 = make_withdraw(7)
+## account1, account2 是两个不同的账户，各自有着自己的state， 互不干扰
+
+In this way, each instance of withdraw maintains its own balance state, but that state is 
+inaccessible to any other function in the program. Viewing this situation at a higher level, 
+we have created an abstraction of a bank account that manages its own internals but behaves 
+in a way that models accounts in the world: it changes over time based on its own history 
+of withdrawal requests.
+
+## 2.4.6 The Cost of Non-Local Assignment
+The key to correctly analyzing code with non-local assignment is to remember that only function 
+calls can introduce new frames. Assignment statements always change bindings in existing frames. 
+In this case, unless make_withdraw is called twice, there can be only one binding for balance.
+
+### 什么叫同一个对象？
+In general, so long as we never modify data objects, we can regard a compound data object to be 
+precisely the totality of its pieces. For example, a rational number is determined by giving its 
+numerator and its denominator. But this view is no longer valid in the presence of change, where 
+a compound data object has an "identity" that is something different from the pieces of which it 
+is composed. A bank account is still "the same" bank account even if we change the balance by making 
+a withdrawal; conversely, we could have two bank accounts that happen to have the same balance, 
+but are different objects.
+
+Despite the complications it introduces, non-local assignment is a powerful tool for creating 
+modular programs. Different parts of a program, which correspond to different environment frames, 
+can evolve separately throughout program execution. Moreover, using functions with local state, 
+we are able to implement mutable data types. In fact, we can implement abstract data types that 
+are equivalent to the built-in list and dict types introduced above.
+
+
+
+
+
+
+
+
+
+
+
+
+
