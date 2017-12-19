@@ -1,0 +1,251 @@
+## 通用函数（java中泛型）
+A central concept in object abstraction is a generic function, which is a function that can 
+accept values of multiple different types. We will consider three different techniques for 
+implementing generic functions: shared interfaces, type dispatching, and type coercion. 
+In the process of building up these concepts, we will also discover features of the Python 
+object system that support the creation of generic functions.
+
+## 2.7.1 String Conversion
+## 最好用lisp做参考
+>>> from datetime import date
+>>> tues = date(2011, 9, 12)
+>>> repr(tues)
+'datetime.date(2011, 9, 12)'
+>>> str(tues)
+'2011-09-12'
+
+Defining the repr function presents a new challenge: we would like it to apply correctly 
+to all data types, even those that did not exist when repr was implemented. We would like 
+it to be a generic or polymorphic function, one that can be applied to many (poly) different 
+forms (morph) of data.
+
+The object system provides an elegant solution in this case: the repr function always invokes a 
+method called __repr__ on its argument.
+
+>>> tues.__repr__()
+'datetime.date(2011, 9, 12)'
+By implementing this same method in user-defined classes, we can extend the applicability of repr 
+to any class we create in the future. This example highlights another benefit of dot expressions 
+in general, that they provide a mechanism for extending the domain of existing functions to new object types.
+
+The str constructor is implemented in a similar manner: it invokes a method called __str__ on its argument.
+>>> tues.__str__()
+'2011-09-12'
+
+These polymorphic functions are examples of a more general principle: certain functions should apply 
+to multiple data types. Moreover, one way to create such a function is to use a shared attribute name 
+with a different definition in each class.
+
+## 2.7.2 Special Methods
+In Python, certain special names are invoked by the Python interpreter in special circumstances. 
+For instance, the __init__ method of a class is automatically invoked whenever an object is 
+constructed. The __str__ method is invoked automatically when printing, and __repr__ is invoked 
+in an interactive session to display values.
+
+### True and false values. 
+We saw previously that numbers in Python have a truth value; more specifically, 0 is a false 
+value and all other numbers are true values. In fact, all objects in Python have a truth value. 
+By default, objects of user-defined classes are considered to be true, but the special __bool__ method 
+can be used to override this behavior. If an object defines the __bool__ method, then Python calls 
+that method to determine its truth value.
+
+As an example, suppose we want a bank account with 0 balance to be false. We can add a __bool__ method
+to the Account class to create this behavior.
+>>> Account.__bool__ = lambda self: self.balance != 0
+
+## Sequence operations.
+We have seen that we can call the len function to determine the length of a sequence.
+>>> len('Go Bears!')
+9
+The len function invokes the __len__ method of its argument to determine its length. 
+All built-in sequence types implement this method.
+>>> 'Go Bears!'.__len__()
+9
+
+Python uses a sequence's length to determine its truth value, if it does not 
+provide a __bool__ method. Empty sequences are false, while non-empty sequences are true.
+>>> bool('')
+False
+>>> bool([])
+False
+>>> bool('Go Bears!')
+True
+
+## Callable objects
+In Python, functions are first-class objects, so they can be passed around as data 
+and have attributes like any other object. 
+
+Python also allows us to define objects that can be "called" like functions by including a __call__ method. 
+With this method, we can define a class that behaves like a higher-order function.
+
+As an example, consider the following higher-order function, which returns a function that adds a 
+constant value to its argument.
+>>> def make_adder(n):
+        def adder(k):
+            return n + k
+        return adder
+>>> add_three = make_adder(3)
+>>> add_three(4)
+7
+We can create an Adder class that defines a __call__ method to provide the same functionality.
+>>> class Adder(object):
+        def __init__(self, n):
+            self.n = n
+        def __call__(self, k):
+            return self.n + k
+>>> add_three_obj = Adder(3)
+>>> add_three_obj(4)
+7
+
+We have further blurred the line between data and functions.
+
+## 2.7.3   Multiple Representations
+Abstraction barriers allow us to separate the use and representation of data. 
+However, in large programs, it may not always make sense to speak of "the underlying 
+representation" for a data type in a program. For one thing, there might be more than 
+one useful representation for a data object, and we might like to design systems that 
+can deal with multiple representations.
+
+To take a simple example, complex numbers may be represented in two almost equivalent 
+ways: in rectangular form (real and imaginary parts) and in polar form (magnitude and angle). 
+Sometimes the rectangular form is more appropriate and sometimes the polar form is more appropriate. 
+Indeed, it is perfectly plausible to imagine a system in which complex numbers are represented in 
+both ways, and in which the functions for manipulating complex numbers work with either representation.
+
+The idea of allowing for multiple representations of data arises regularly. Large software systems 
+are often designed by many people working over extended periods of time, subject to requirements 
+that change over time. In such an environment, it is simply not possible for everyone to agree 
+in advance on choices of data representation. In addition to the data-abstraction barriers that 
+isolate representation from use, we need abstraction barriers that isolate different design 
+choices from each other and permit different choices to coexist in a single program.
+
+The interface approach to encoding multiple representations has appealing properties. 
+The class for each representation can be developed separately; they must only agree on 
+the names of the attributes they share, as well as any behavior conditions for those attributes. 
+The interface is also additive. If another programmer wanted to add a third representation of 
+complex numbers to the same program, they would only have to create another class with the same attributes.
+
+Multiple representations of data are closely related to the idea of data abstraction with 
+which we began this chapter. Using data abstraction, we were able to change the implementation 
+of a data type without changing the meaning of the program. With interfaces and message passing,
+we can have multiple different representations within the same program. In both cases, a set of 
+names and corresponding behavior conditions define the abstraction that enables this flexibility.
+
+## 2.7.4 Generic Functions
+Generic functions are methods or functions that apply to arguments of different types. 
+We have seen many examples already. The Complex.add method is generic, because it can 
+take either a ComplexRI or ComplexMA as the value for other. This flexibility was gained 
+by ensuring that both ComplexRI and ComplexMA share an interface. 
+编写通用函数的几种方法：
+统一接口， 消息传递， 类型分派(type dispatching)， 类型强制(type coercion)
+Using interfaces and message passing is only one of several methods used to implement 
+generic functions. We will consider two others in this section: type dispatching and type coercion.
+
+### Type dispatching. 
+One way to implement cross-type operations is to select behavior based on the types 
+of the arguments to a function or method. The idea of type dispatching is to write 
+functions that inspect the type of arguments they receive, then execute code that 
+is appropriate for those types.
+
+The built-in function isinstance takes an object and a class. It returns true if 
+the object has a class that either is or inherits from the given class.
+>>> c = ComplexRI(1, 1)
+>>> isinstance(c, ComplexRI)
+True
+>>> isinstance(c, Complex)
+True
+>>> isinstance(c, ComplexMA)
+False
+
+Type dispatching is not always performed using isinstance. For arithmetic, we will give a 
+type_tag attribute to Rational and Complex instances that has a string value. 
+When two values x and y have the same type_tag, then we can combine them directly with x.add(y). 
+If not, we need a cross-type operation.
+>>> Rational.type_tag = 'rat'
+>>> Complex.type_tag = 'com'
+>>> Rational(2, 5).type_tag == Rational(1, 2).type_tag
+True
+>>> ComplexRI(1, 1).type_tag == ComplexMA(2, pi/2).type_tag
+True
+>>> Rational(2, 5).type_tag == ComplexRI(1, 1).type_tag
+False
+
+To combine complex and rational numbers, we write functions that rely on both of their 
+representations simultaneously. Below, we rely on the fact that a Rational can be converted 
+approximately to a float value that is a real number. The result can be combined with a complex number.
+>>> def add_complex_and_rational(c, r):
+        return ComplexRI(c.real + r.numer/r.denom, c.imag)
+
+class Number:
+        def __add__(self, other):
+            if self.type_tag == other.type_tag:
+                return self.add(other)
+            elif (self.type_tag, other.type_tag) in self.adders:
+                return self.cross_apply(other, self.adders)
+        def __mul__(self, other):
+            if self.type_tag == other.type_tag:
+                return self.mul(other)
+            elif (self.type_tag, other.type_tag) in self.multipliers:
+                return self.cross_apply(other, self.multipliers)
+        def cross_apply(self, other, cross_fns):
+            cross_fn = cross_fns[(self.type_tag, other.type_tag)]
+            return cross_fn(self, other)
+        adders = {("com", "rat"): add_complex_and_rational,
+                  ("rat", "com"): add_rational_and_complex}
+        multipliers = {("com", "rat"): mul_complex_and_rational,
+                       ("rat", "com"): mul_rational_and_complex}
+
+## Coercion
+def rational_to_complex(r):
+        return ComplexRI(r.numer/r.denom, 0)
+The alternative definition of the Number class performs cross-type operations by attempting 
+to coerce both arguments to the same type. The coercions dictionary indexes all possible 
+coercions by a pair of type tags, indicating that the corresponding value coerces a value 
+of the first type to a value of the second type.
+
+class Number:
+        def __add__(self, other):
+            x, y = self.coerce(other)
+            return x.add(y)
+        def __mul__(self, other):
+            x, y = self.coerce(other)
+            return x.mul(y)
+        def coerce(self, other):
+            if self.type_tag == other.type_tag:
+                return self, other
+            elif (self.type_tag, other.type_tag) in self.coercions:
+                return (self.coerce_to(other.type_tag), other)
+            elif (other.type_tag, self.type_tag) in self.coercions:
+                return (self, other.coerce_to(self.type_tag))
+        def coerce_to(self, other_tag):
+            coercion_fn = self.coercions[(self.type_tag, other_tag)]
+            return coercion_fn(self)
+        coercions = {('rat', 'com'): rational_to_complex}
+
+This coercion scheme has some advantages over the method of defining explicit cross-type operations. 
+Although we still need to write coercion functions to relate the types, we need to write only one 
+function for each pair of types rather than a different function for each set of types and each 
+generic operation.
+
+Further advantages come from extending coercion.
+
+Despite its advantages, coercion does have potential drawbacks. 
+For one, coercion functions can lose information when they are applied. 
+In our example, rational numbers are exact representations, but become 
+approximations when they are converted to complex numbers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
