@@ -1,0 +1,11 @@
+# 遇到的库及作用mark
+
+## server
+https://docs.python.org/3/library/http.server.html#http.server.BaseHTTPRequestHandler
+
+## parse request path
+from urllib.parse import urlparse, parse_qs
+parts = urlparse(address)
+query = parse_qs(parts.query)
+
+## itertools
