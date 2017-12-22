@@ -1,0 +1,6 @@
+>>> string.ascii_lowercase
+'abcdefghijklmnopqrstuvwxyz'
+>>> string.ascii_uppercase
+'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+>>> string.digits
+'0123456789'
