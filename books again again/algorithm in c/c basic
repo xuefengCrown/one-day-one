@@ -1,0 +1,40 @@
+
+1. 抽象接口
+接口声明
+接口实现
+客户程序
+typedef int Number
+
+2. 指针
+指针的重要性在于它有多种途径可使数据结构化。
+以支持处理数据的更高效算法。
+
+3. 线性表
+数组组织数据，适于访问而不是操纵。
+list组织数据，适于操纵而不是访问。
+
+4. 数组
+数组反映计算机中访问内存数据的低层机制。
+数组的索引是包含信息的，利用索引。
+
+5. malloc
+<stdlib.h>
+int *a = malloc(N*sizeof(int));
+if (a == NULL){
+  printf("insufficient memory"); return;
+}
+
+6.
+指向数组的指针意义重大。它允许我们把数组作为高级对象加以高效操纵。
+尤其是把指向数组的指针作为参数传递给函数。使得我们无需复制数组就能访问数组中的对象，
+这在大型程序中必不可少。
+
+7. 链表
+typedef struct node *link;
+struct node{
+  Item item;
+  link next;
+};
+
+
+
