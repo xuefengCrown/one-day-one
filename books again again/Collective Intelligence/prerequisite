@@ -1,0 +1,47 @@
+
+尤其重要的一点，为了熟悉基本概念，我们最好已写过足够多的代码。
+
+递归，函数式编程很有助益。
+
+数据分析，机器学习，统计学知识，三角学知识。
+
+以循序渐进的方式来构建应用程序。
+
+为什么用python？
+@Concise
+Code written in dynamically typed languages such as Python tends to be shorter
+than code written in other mainstream languages. This means there’s less typing
+for you when working through the examples, but it also means that it’s easier to
+fit the algorithm in your head and really understand what it’s doing.
+
+@Easy to read
+Python has at times been referred to as “executable pseudocode.” While this is
+clearly an exaggeration, it makes the point that most experienced programmers
+can read Python code and understand what it is supposed to do. Some of the less
+obvious constructs in Python are explained in the “Python Tips” section below.
+
+@Easily extensible
+Python comes standard with many libraries, including those for mathematical
+functions, XML (Extensible Markup Language) parsing, and downloading web
+pages. The nonstandard libraries used in the book, such as the RSS (Really
+Simple Syndication) parser and the SQLite interface, are free and easy to down-
+load, install, and use.
+
+@Interactive
+When working through an example, it’s useful to try out the functions as you
+write them without writing another program just for testing. Python can run
+programs directly from the command line, and it also has an interactive prompt
+that lets you type in function calls, create objects, and test packages interactively.
+
+@Multiparadigm
+Python supports object-oriented, procedural, and functional styles of programming. 
+Machine-learning algorithms vary greatly, and the clearest way to
+implement one may use a different paradigm than another. Sometimes it’s use-
+ful to pass around functions as parameters and other times to capture state in an
+object. Python supports both approaches.
+
+@Multiplatform and free
+Python has a single reference implementation for all the major platforms and is
+free for all of them. The code described in this book will work on Windows,
+Linux, and Macintosh.
+
