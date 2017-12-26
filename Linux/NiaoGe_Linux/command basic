@@ -1,0 +1,31 @@
+# 基本指令
+在linux中，属性的调节都是通过修改配置文件来完成的。（key=value）
+LANG=en_US
+
+1. 指令模式
+command [-option] parameter1 parameter2 ...
+2. 基本指令
+ls -al
+date
+echo $LANG
+LANG=en_US/zh_CN.UTF-8
+日历 cal
+简单计算器 bc
+3.
+man cal
+tab tab
+4.
+sync(root 更新所有数据)
+who
+netstat
+shutdown -h now/20:25
+man shutdown
+
+run level 0：关机
+  run level 3：纯文本模式
+  run level 5：吨有图形接口模式
+  run level 6：重新启劢
+那如何切换各模式呢？可以使用 init 这个挃令来处理喔！
+init 0 关机
+
+
