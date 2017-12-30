@@ -1,0 +1,11 @@
+# 文件IO
+
+3.2 文件描述符
+0
+1
+2
+在POSIX.1应用程序中，幻数 0、1、2应被代换成符号常数 STDIN_FILENO, 
+STDOUT_FILENO, STDERR_FILENO。这些常数都定义在头文件<unistd.h>中。
+
+????????????????
+fcntl
