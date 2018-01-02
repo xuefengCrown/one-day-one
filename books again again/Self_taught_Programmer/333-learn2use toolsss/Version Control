@@ -57,6 +57,40 @@ shows the central repository your project will push data to. Generally, you will
 from the same central repository.
 
 
+You should see the file hangman.py in a green font. You have to stage each file you want to
+push to your repository with the command git add [file] . If you stage a file and change your
+mind, you can unstage it without making changes to your central repository. You can unstage
+a file with the syntax git reset [file_path] . Unstage hangman.py with the command git reset
+hangman.py . Use git status to see the result, and add it again with git add hangman.py :
+$ git reset hangman.py
+$ git status
+>>
+$ git add hangman.py
+>>
+
+Once we’ve staged our files, and everything looks the way we want, we are ready to move to
+the next step—committing our files to our central repository. When you commit files, you
+want to use the -m flag so you can pass along a message. The message will be saved along
+with your commit in your repository to help you remember what changes you made in that
+commit.
+$ git commit -m "my first commit"
+>> 1 file changed, 1 insertion(+)
+create mode 100644 hello_world.py
+
+The final step is to actually push your changes to GitHub. This is done with the command git
+push origin master:
+$ git push origin master
+>> Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 309 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/[your_username]/my_project.git
+0eb3a47..48acc38 master -> master
+Once you enter your GitHub username and password from the command line, your changes
+will be pushed to GitHub. If you look at your repository on GitHub’s website, you will see
+hangman.py is now in your project.
+
 
 
 
