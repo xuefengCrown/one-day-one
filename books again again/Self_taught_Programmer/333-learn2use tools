@@ -7,3 +7,195 @@ collaborate with other engineers using version control, how to use your Interact
 Development Environment to boost your productivity and how to install and manage other
 people's programs.
 
+Bash
+In this section of the book we learn to use tools that will make us more effective
+programmers. In this chapter we learn to use the command line shell Bash that comes with
+many versions of Linux and OS X (which are Unix-like operating systems). A command line
+shell is a program that lets you type instructions into it that your computer executes when you
+press enter.
+
+
+vim
+Since you can’t use your mouse to move the cursor around, it’s important to learn a few
+shortcuts to jump to different locations in your document, so that you don’t end up using the
+arrow keys on your keyboard (because that’s slow). To practice moving around, first make
+sure you are in Normal Mode ( control-c ). You can move to the beginning of a word by
+pressing b and the end of a word with e . 0 will move you to the beginning of the line you are
+on, while the dollar sign $ will move you to the end of the line. H will move you to the first
+line of the page and L will move you to the last. You can delete entire lines of text in normal
+mode by pressing the d key twice. Spend some time using these keys to get familiar with with
+navigating through a file using vim.
+To exit vim you need to first switch to Normal Mode by pressing control-c . Next press
+the shift key and then hit the colon key (while still holding the shift key). From here you can
+type q! if you want to quit without saving your changes to the file, or type x if you want save
+your changes and quit. Once you’ve typed one of these options, press the enter key to exit.
+vim is useful in a few situations: servers are usually only accessed with a command line shell,
+so if you want to make changes to a file on a server, you need to use a command line text
+editor, and once you get good at using vim, it is often faster to use it to make changes than
+using a conventional word processor. Try typing vimtutor in the Bash command line shell
+and see what happens.
+
+Touch
+You can use the command touch followed by a filepath to quickly create a new file:
+$ touch purple_carrots.txt
+>>
+
+View A File With less
+
+
+Users
+For security reasons, you normally do not log in as the root user. Instead you use a
+command called sudo in front of another command to temporarily use the power of the root
+user to issue the command. sudo allows you to do most things as the root user, but not
+everything. Make sure to be careful using sudo , because using commands with sudo can harm
+your operating system if you don’t know what you are doing. We are not going to cover
+using sudo in this book, but I’ve set up a tutorial on using sudo at
+theselftaughtprogrammer.io/sudo you can read through once you feel comfortable using the
+Bash command line shell.
+
+
+Environmental Variables
+Your operating system can store and use variables called environmental variables. You
+can create a new environmental variable from the command line with the syntax export
+variable_name=[variable_value] . In order to use an environmental variable, you must put a
+dollar sign in front of the environmental variable’s name. For example:
+$ export x=100
+$ echo $x
+>> 100
+
+Creating an environmental variable from the command line is not permanent. If you quit the
+command line, reopen it, and type echo $x , the terminal will no longer print 100 .
+We can make the environmental variable x persistent by adding it to a hidden file used by
+Unix-like operating systems called .profile located in your home directory. Go to your home
+directory with the command cd ~ (~ is a shortcut for representing your home directory on
+Unix-like operating systems) and open your .profile file using vim with the command vim
+.profile . Make sure to enter Normal Mode, type export x=100 into the first line of the file,
+and exit with :x . Close and reopen your command line, and you should still be able to print
+the environmental variable you defined:
+$ echo $x
+>> 100
+The environmental variable x gets 100 as long as it’s defined in your .profile file.
+
+$PATH
+When you type a command into the Bash command shell, it looks for the command in all
+of the directories stored in an environmental variable named $PATH . $PATH is a string of
+directory paths separated by colons. The Bash command shell looks in each of these
+directories for a file matching the name of the command you typed. If the file is found, the
+command is executed, if not the command shell prints “command not found”. 
+In this example there are three directory paths in $PATH : /usr/local/sbin , /user/local/bin and
+/usr/bin . The Bash command line shell will be able to execute any command found in these
+three directories. You can see where a command like grep is installed by passing it as a
+parameter to the command which :
+$ which grep
+>> /usr/bin/grep
+The grep command is located in /usr/bin , one of the locations in my operating system’s
+$PATH environmental variable.
+
+
+pipes
+In Unix-like systems, the character | is known as a pipe. You can use a pipe to use the
+output of one command as the input for another command. For example, we can pass the
+output of the ls command as the input of the less command to open less with all of the files in
+the current directory:
+$ ls | less
+>> Applications
+...
+The result is a text file with the output of ls opened up in the program less (press q to quit
+less ) . You are not limited to piping two commands—you can chain multiple commands
+together using pipes.
+
+
+cat
+You can use the versatile cat command to display the contents of a file and to catenate连接,
+which means “to connect in a series.”  Create a new file called hello.txt and add Hello,
+World! as the first line. Now use the cat command to print the contents of the file:
+$ cat hello.txt
+>> echo Hello, World!
+To use the cat command to catenate two files, first create a file called c1.txt and add the text
+Boy. Then create another file called c2.txt and add the text Meets World . Now we can
+catenate them by passing both files as parameters to the cat command , followed by the
+greater than symbol ( > ), and the name of the new file to create:
+$ cat c1.txt c2.txt > combined.txt
+>>
+
+
+Recent Commands
+You can scroll through your recent commands by pressing the up and down arrows in
+the command line shell. To see a list of all of your recent commands use the command history
+:
+$ history
+>> 1. echo Hello, World!
+>> 2. pwd
+>> 3. ls
+…
+
+
+Jump Around
+When you are typing a command in the terminal, there will be times where you want to
+edit the command you’ve already typed. Your first instinct will be to use the arrow right or
+left key to move the cursor to the part you want to change. But this is slow. Instead you should
+use shortcuts that will get you there faster.
+Type echo hello, world! (without pressing Enter) in the terminal and use esc b to move
+the cursor back one word, and esc f to move the cursor forward one word. You can also move
+the cursor to the beginning of the line with control a or the end of the line with control e .
+
+Tab Complete
+Tab complete is a feature that will help improve the speed you get things done from the
+command line shell. If you are in the middle of typing a command you and press the tab
+button on your keyboard, the command line shell will try to autocomplete the command for
+you.
+
+Wildcard
+A wildcard is a character used to match a pattern. Two examples of wildcards are an
+asterisk and a question mark. The asterisk wildcard matches everything either starting or
+ending with a pattern, depending if you put it before or after the pattern. Asterisk wildcards
+are commonly used with the command ls . The command ls *.txt will show any files in the
+current directory that end with .txt , whereas ls .txt* will show any files that with .txt .
+A question mark will match any single character. So ls t?o will show any files or
+directories that match t followed by any character followed by o . If you had directories
+named two and too , they both would get printed.
+
+Other Tools
+If your terminal gets cluttered, you can clear it with the command clear. If a process is
+taking too long, you can kill it with control+c . Another powerful command is grep, used to
+search files for patterns and covered in the next chapter.
+
+
+The One Week Challenge
+I challenge you to only use the command line for one week. That means no graphical
+user interface for anything other than using the internet! You should complete this challenge
+during a week you are actively working on a programming project.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
