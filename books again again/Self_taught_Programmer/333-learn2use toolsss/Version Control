@@ -1,0 +1,72 @@
+Chapter 20. Version Control
+“I object to doing things that computers can do.” — Olin Shivers
+
+Writing software is a team sport. When you are working on a project with more than one
+person, you will both be making changes to the codebase —the folders and files that make up
+your software—and you need to keep those changes in sync. You could both periodically
+email each other with your changes, and combine the two different versions yourself, but that
+would quickly become tedious. Also what would happen if you both made changes to the same
+part of the project? Whose changes should be used? These are the kinds of problems a
+version control system solves. A version control system is software designed to let you
+easily collaborate on projects with other programmers.
+There are many different version control systems. Git and SVN are both popular
+choices. Version control systems are programs, usually used in conjunction with a service that
+stores your software on the cloud, like GitHub . In this chapter we are going to use Git, a
+version control system, to put software on Github, a website that stores your code on the
+cloud.
+
+
+repository
+A programmer working on the project can update the central repository with the changes they’ve 
+made in their local repository or they can update their local repository with the newest changes other
+programmers have made to the central repository.
+image of repositories communicating
+This is done from the command line using the program Git.
+
+You can create a new repository using the Git program from the command line or on
+GitHub’s website. Once you create a repository, you can use the Git program to manage it and
+communicate with a central repository.
+
+
+You can use this link to download your repository to your computer using the command git clone
+[repository_url] . The repository will download in whatever director you issue the command
+from. Copy the link, or press the copy link to clipboard button and use it with the git clone
+command:
+$ git clone
+>>
+Use ls to verify the repository downloaded:
+$ ls
+>> my_project
+
+Pushing and Pulling
+There are two main things you will be doing with Git. The first is updating the central
+repository with changes from your local repository. This is called pushing because you are
+pushing new data to your central repository.
+The second thing you will be doing is called pulling . Pulling data means updating your
+local repository with all of the new changes from the central repository.
+The command git remote -v shows you what central repository your local repository is
+pushing and pulling from. The -v flag stands for verbose, which means the command will
+usually print out extra information . Use this command inside to see the central repository
+your local repository is pushing and pulling from:
+$ git remote -v
+>> origin https://github.com/[username]/my_git_project.git
+(fetch)
+>> origin https://github.com/[username]/my_git_project.git (push)
+The first line shows the central repository your project will pull data from and the second line
+shows the central repository your project will push data to. Generally, you will push and pull
+from the same central repository.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
