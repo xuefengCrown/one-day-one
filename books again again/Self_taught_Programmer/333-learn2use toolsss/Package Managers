@@ -1,0 +1,103 @@
+Chapter 19. Package Managers
+“Every programmer is an author.” ― Sercan Leylek
+Package managers are programs that install and manage other programs on your
+operating system. An example of managing a program is keeping the program up to date
+when a new version comes out. In this chapter we are going to learn to use several package
+managers. Package managers are useful because programmers use programs to create new
+programs. For example, most programs use one or more databases (we learn to use a
+database in the last chapter of this section), and which are programs themselves.
+Programmers use package managers to download and keep their databases up to date, as well
+as to install and manage the wide variety of other programs they use in their craft.
+In this chapter we will learn to use three package managers: apt-get, Homebrew, and pip.
+apt-get is a package manager for Ubuntu, Homebrew is a package manager for OS X, OneGet
+is a package manager for Windows and pip is a package manager that comes with Python and
+is used to download and manage Python programs.
+
+Packages
+A package is software “packaged” for distribution—it includes the files that make up the
+actual program, as well as files with metadata (data about data); such as the software’s name,
+version number, and dependencies (programs that need to be downloaded in order for it to
+run properly). Package managers download packages, install them—which means
+downloading any dependencies the package has.
+
+
+apt-get
+You install a package with sudo apt-get install [package_name] . Here is an example of
+installing a package named aptitude :
+$ sudo apt-get install aptitude
+>> Do you want to continue? [Y/N] Y
+
+You
+should see a list of all the packages installed on your operating system under the option
+Installed Packages, as well as a list of packages you’ve yet to install, under Not Installed
+Packages.
+You can also list the packages that have been installed with apt-get with the command apt
+list --installed :
+$ apt list --installed
+>> python3-requests...
+
+You can remove packages using aptitude with the syntax apt-get uninstall
+[package_name] . If you want to remove aptitude from your computer, you can uninstall it
+with sudo apt-get uninstall aptitude . That’s all there is to it—installing and removing
+programs is as simple as using two commands with apt-get.
+
+
+pip
+Pip is used to download Python packages. Pip will install a Python package for you, and
+once installed, you can import the program you downloaded as a module in your Python
+programs. First, check Pip is installed by going to either the Bash command line shell, or the
+Command Prompt if you are using Windows (which you can find by searching Command
+Prompt from the Run Window) and typing pip .
+$ pip
+>> Usage:
+pip <command> [options]
+Commands:
+install Install packages.
+download Download packages.
+
+Pip comes with Python when you download it, but in earlier versions it didn’t so if nothing happens 
+when you enter pip, google “installing pip with easy_install”.
+
+We can use pip install [package_name] to install a new package. You can find all of the
+Python packages available for download at https://pypi.python.org/pypi . There are two ways
+to specify a package: you can just use the package name, or you can give the package name
+followed by == and the version number. If you use the package name, the most recent version
+will get downloaded. Sometimes you don’t want the most recent version, you want a specific
+version, which is why the second option exists. Here is an example of how we can install a
+package called Flask, a popular Python package that lets you easily create websites, using a
+version number:
+pip install Flask==0.10.1
+>>
+On Unix-like systems you need to use sudo :
+sudo pip install Flask==0.10.1
+>>
+
+When the installation is finished, the flask module will be installed in a special folder on your
+computer called site-packages. Site-packages is automatically included in your Python path,
+so when Python imports a module, it looks in site-packages to see if it's there.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
