@@ -1,0 +1,6 @@
+
+C-6.20 Describe a nonrecursive algorithm for enumerating all permutations of the
+numbers {1,2,...,n} using an explicit stack.
+
+C-6.21 Show how to use a stack S and a queue Q to generate all possible subsets
+of an n-element set T nonrecursively.
