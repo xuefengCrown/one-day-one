@@ -1,0 +1,170 @@
+Chapter 18. Regular Expressions
+
+A regular expression is a sequence of characters used to look for a pattern in a string. 
+In this chapter we are going to practice using regular expressions from the command line using
+grep , a command for using regular expressions to search files. We will also learn to use
+regular expressions in Python.
+
+!!!!!!!!!!!! python -c "import this" 
+The - c flag in Python executes Python passed in as a string, and import this prints the Zen of
+Python when executed.
+
+To get started practicing using regular expressions, create a file called zen.txt . From the
+command line (make sure you are inside the directory where you created zen.txt ) enter the
+command python3 -c “import this” .
+
+If you are using a Mac, set the following environmental variables in the terminal:
+$ export GREP_OPTIONS='--color=always'
+$ export GREP_COLOR='1;35;40'
+This will make grep highlight the words matched in the terminal , which happens by default
+on Ubuntu but not on OSX. Remember, setting an environmental variable from the terminal is
+not permanent, so if you exit the terminal and come back you will have to set the
+environmental variables again. Add the environmental variables to your .profile file if you
+want to make the change permanent.
+
+
+## Simple Match
+The command grep accepts a regular expression and the path to a file to look for the
+regular expression in as parameters. From the command line, in the directory where you
+created the file zen.txt , enter the following command:
+$ grep Beautiful zen.txt
+>> Beautiful is better than ugly.
+Beautiful is the regular expression and zen.txt is the path to the file to look for the regular
+expression in. Beautiful is a sequence of characters that match the word Beautiful . This is the
+simplest kind of regular expression. Your console printed the line Beautiful is better than
+ugly . with Beautiful highlighted because it is the word the regular expression matched.
+
+## Ignore Case
+If we change our regular expression from Beautiful to beautiful , it will no longer
+match anything in the Zen of Python. Enter grep beautiful zen.py to see for yourself. If we
+want our regular expression to match the word beautiful regardless of case (whether or not
+characters are capitalized), we can use the flag -i :
+$ grep -i beautiful zen.txt
+>> Beautiful is better than ugly.
+Because we added the flag -i to our command, grep ignores case and highlights Beautiful
+again.
+
+## Only Return Matched
+grep returns the entire line of the file a match was found on. We can return the exact
+word matched by using the flag -o :
+$ grep -o Beautiful zen.txt
+>> Beautiful
+
+
+## Match Beginning and End
+Regular expressions have certain characters that don’t match themselves, but instead do
+something special. For example the ^ character is used to look for matches only if they occur
+at the beginning of a line:
+$ grep ^If zen.txt
+>> If the implementation is hard to explain, it's a bad idea.
+>> If the implementation is easy to explain, it may be a good
+idea.
+Similarly, we can use the dollar sign to only match the lines that end with a pattern:
+$ grep idea.$ zen.txt
+>> If the implementation is hard to explain, it's a bad idea.
+>> If the implementation is easy to explain, it may be a good idea.
+
+The lines matched both end with idea. The line Namespaces are one honking great idea -- let's
+do more of those! was ignored because although it includes the word idea, it does not end
+with the word idea. You can also combine the two anchor matches we’ve covered into the
+regular expression ^$ to search for empty lines in a file.
+
+
+## Match Multiple Characters
+You can use brackets in a regular expression to match any of the characters inside the
+brackets. In this example, instead of matching text from our zen.txt file, we are going to use a
+pipe to pass in a string to grep :
+$ echo Two is a number and too is not. | grep -i t[ow]o
+>> Two is a number and too is not.
+Remember, the pipe symbol passes the output of one command as the input of the next. In this
+case the output of echo is passed as the input of grep. The command echo Two is a number
+and too is not. | grep -i t[ow]o will match both two and too because the regex is looking for
+a t followed by either an o or a w followed by an o.
+
+## Repetition
+We can add repetition in our patterns with the asterisk symbol. The asterisk symbol
+means “ The preceding item will be matched zero or more times.”  56 We might want to say,
+match tw followed by any amount of o’s . The regular expression grep two* accomplishes
+this:
+$ echo two twooo twoo not too. | grep -o two*
+>> two
+>> twooo
+>> twoo
+Adding a * after two means the regular expression should match anything with two followed
+by any number of o’s.
+
+
+## Range
+You can match a range of letters or numbers by putting the range inside brackets. For
+example, we might want to only match the numbers in 122233 hello 334443 goodbye 939333 .
+The regex [ [:digit:]] * will match all the numbers in the string because it includes a range of
+numbers ( 0-9) , followed by * which tells the regex to match as many numbers in a row as it
+can.
+$ echo 122233 hello 334443 goodbye 939333 | grep -o [0-9]*
+>> 122233
+>> 33443
+>> 939333
+Si milarly, you can match a range of cha racters (all characters in this case) with the regex
+[[:alpha:]] :
+$ echo 122233 hello 334443 goodbye 939333 | grep [ [:alpha:]]*
+
+
+## Escaping
+What if we want to match one of the special characters we’ve been discussing, like the
+dollar sign? We can do this by escaping the character. We covered escaping in the chapter
+Manipulating Strings: escaping means prefixing a character with a special character to let the
+program evaluating the syntax know you want to use the actual character and not the special
+meaning the character normally has. Escaping in regular expressions is done with a backward
+slash:
+$ echo I love $ | grep \\$
+>> I love $
+Normally, the dollar sign has the special meaning of only matching something at the end of a
+line, however because we escaped it, our regex looks for the dollar sign.
+
+
+
+# Regular Expressions in Python
+import re
+line = "Match this."
+matchObj = re.search( 'this' , line)
+if matchObj:
+  print (matchObj.group())
+else :
+  print ( "No match!" )
+>> this
+re comes with different methods like search, which returns the first occurrence of the
+pattern you are looking for. If a match is found, an SRE_Match object is returned, and we can
+get the match by calling the function group() . If no match is found, re.search() returns None .
+We can use the function findall() in the re module to find every occurrence of a pattern,
+instead of just the first match.
+
+If we want to match everything in between two underscores, we can do it with:
+import re
+line = """__yellow__ __red__ and __blue__ are colors"""
+matchObj = re.findall( '__.*?__' , line)
+if matchObj:
+  print matchObj
+else :
+  print ( "No match!" )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
