@@ -1,0 +1,26 @@
+FIFO
+A queue would therefore be a logical choice for a data structure to handle calls to a
+customer service center, or a wait-list at a restaurant. FIFO queues are also used by
+many computing devices, such as a networked printer, or a Web server responding
+to requests.
+
+## Using an Array Circularly
+Implementing this circular view is not difficult. When we dequeue an element
+and want to “advance” the front index, we use the arithmetic f = (f + 1) % N.
+Internally, the queue class maintains the following three instance variables:
+_data: is a reference to a list instance with a fixed capacity.
+_size: is an integer representing the current number of elements stored
+in the queue (as opposed to the length of the data list).
+_front: is an integer that represents the index within data of the first
+element of the queue (assuming the queue is not empty).
+
+
+# 6.3 Double-Ended Queues
+
+
+## 6.3.3 Deques in the Python Collections Module
+
+
+
+
+
