@@ -1,0 +1,30 @@
+
+7.2 Circularly Linked Lists
+In Section 6.2.2, we introduced the notion of a “circular” array and demonstrated
+its use in implementing the queue ADT. In reality, the notion of a circular array was
+artificial, in that there was nothing about the representation of the array itself that
+was circular in structure. It was our use of modular arithmetic when “advancing”
+an index from the last slot to the first slot that provided such an abstraction.
+In the case of linked lists, there is a more tangible notion of a circularly linked
+list, as we can have the tail of the list use its next reference to point back to the head
+of the list
+
+7.2.2 Implementing a Queue with a Circularly Linked List
+To implement the queue ADT using a circularly linked list, werely on the intuition
+of Figure 7.7, in which the queue has a head and a tail, but withthe next reference of
+the tail linked to the head. Given such a model, there is no need for us to explicitly
+store references to both the head and the tail; as long as we keep a reference to the
+tail, we can always find the head by following the tail’s next reference.
+
+
+7.3 Doubly Linked Lists
+Header and Trailer Sentinels 哨兵
+In order toavoid somespecial cases when operating near the boundaries of adoubly
+linked list, it helps to add special nodes at both ends of the list: a header node at the
+beginning of the list, and a trailer node at the end of the list. These “dummy” nodes
+are known as sentinels (or guards), and they do not store elements of the primary
+sequence. 
+
+
+
+
