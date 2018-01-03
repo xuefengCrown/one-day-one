@@ -1,0 +1,21 @@
+算法分析
+
+期望时间
+需要一个有关输入的统计分布的假设（需要概率统计知识）
+
+insert sort
+merge sort
+
+计算机中重要的几个方面
+1. representation（如何表示这个世界）
+2. recursion, induction
+3. search
+4. sort
+5. text processing
+6. regExp
+7. data abstraction
+8. scope, env
+9. programming paradigm
+10. ds and algorithm
+
+
