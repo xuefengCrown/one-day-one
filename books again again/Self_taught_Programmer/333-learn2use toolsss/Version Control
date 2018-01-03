@@ -103,7 +103,45 @@ Git applied the changes from our central repository to our local repository, and
 in sync. You can view the README.md file on your computer to see the change.
 
 
+Reverting Versions
+When you use version control, the entire history of your project is saved and available
+for you to use. If you decide you want to revert to a version of your project from 10 days ago,
+you are able to do so. You can view your project’s history of commits with git log , which
+should output something like this:
+$ git log
+commit aeb4ef3cf3aabdb9205ea9e96e8cab5c0f5ca7ea
+Author: Cory Althoff <coryalthoff@Corys-MacBook-Pro.local>
+Date: Thu Jan 21 13:52:02 2016 -0800
+The string of numbers and letters after commit is the commit number. We can use this
+number to revert our project to exactly how it was at that time. We can travel back in time
+with the command git checkout [old commit]. In this case the command would be git checkout
+aeb4ef3cf3aabdb9205ea9e96e8cab5c0f5ca7ea.
 
+
+diff
+We can use the command git diff to see the difference between the version of a file in our
+local project, and the version in our repository. Add x=100 to the second line of our
+hello_world.py file. Enter the command:
+$ git diff hello_world.py
+>> diff --git a/hello_world.py b/hello_world.py
+index b376c99..83f9007 100644
+--- a/hello_world.py
++++ b/hello_world.py
+@@ -1 +1,2 @@
+print('hello')
++x = 100
+Git highlights +x=100 in green because the line changed, the + is to signify the line x=100
+was added.
+
+
+The Other Pull Request
+Confusingly, there are two concepts named pull in version control. We previously talked
+about pulling data from your repository. There is also an unrelated concept called a pull
+request. A pull request takes place on GitHub. If you are working on a branch of a project, and
+you want to merge it with the master repository, you would issue a pull request on GitHub to
+merge the two. This gives your teammates the chance to review and comment on your
+changes. If everything looks good, someone on your team can approve the pull request and
+merge the two branches.
 
 
 
