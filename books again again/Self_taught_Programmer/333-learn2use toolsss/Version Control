@@ -92,7 +92,15 @@ will be pushed to GitHub. If you look at your repository on GitHub’s website, 
 hangman.py is now in your project.
 
 
-
+Pulling Example
+In this section, we learn how to update your repository with changes from the central
+repository. First, we have to make a change in our central repository. Use the command git
+pull origin master to update your local repository with the change we made:
+$ git pull origin master
+>>From https://github.com/calthoff/my_project
+>> * branch master -> FETCH_HEAD
+Git applied the changes from our central repository to our local repository, and they are now
+in sync. You can view the README.md file on your computer to see the change.
 
 
 
