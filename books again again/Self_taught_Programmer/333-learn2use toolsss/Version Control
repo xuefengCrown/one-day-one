@@ -144,6 +144,15 @@ changes. If everything looks good, someone on your team can approve the pull req
 merge the two branches.
 
 
+Learning More
+You typically create a new branch when you want to develop a new feature
+for your program or fix a bug or problem. When you are finished with whatever
+you are doing on your branch, you normally merge your changes with the
+master branch, which is the process of combining the two branches. Covering
+merging is outside the scope of this book, but git-scm has a great tutorial on it
+you can check out at: https://git-scm.com/book/en/v2/Git-Branching-Basic-
+Branching-and-Merging.
+
 
 
 
